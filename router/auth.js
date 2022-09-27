@@ -2,6 +2,7 @@ const express=require('express');
 const jwt=require('jsonwebtoken')
 const bcrypt=require("bcrypt")
 const router=express.Router();
+const authenticate=require("../middleware/authenticate")
 require("../db/conn")
 const User=require('../model/userSchema')
 router.get('/', (req,res)=>{
@@ -90,6 +91,14 @@ res.cookie("jwtoken", token, {
 }catch(err){
     console.log(err);
 }
-})
+});
+
+//about us ka page
+app.get('/about',authenticate,(req, res)=>{
+    console.log("hello my about")
+    res.send("Hollo about World from the server")
+    });
+
+
 
 module.exports =router;
