@@ -1,7 +1,34 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, {useState} from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+
 
 function Login() {
+    const navigate=useNavigate();
+    const [email, setEmail]=useState('');
+    const [password,setPassword] =useState('');
+const loginUser=async (e)=>{
+    e.preventDefault();
+    const res=await fetch('/signin', {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            email,password
+        })
+
+    });
+    const data=res.json();
+    if(res.status===400||!data){
+        window.alert("Invalid Credentials")
+    }
+    else{
+        window.alert('Login Successfull')
+        navigate('/')
+    }
+
+
+}
   return (
     <>
     <section className='signin'>
@@ -10,18 +37,18 @@ function Login() {
      
          <div className='signin-form'>
              <h2 className='form-title'>Sign in</h2>
-             <form className='register-form' id='register-form'>
+             <form method='POST' className='register-form' id='register-form'>
 
-                 <input type="email" name='email' id='email' autoComplete='off' placeholder='Your Email' />
+                 <input type="email" name='email' id='email' autoComplete='off' placeholder='Your Email' value={email} onChange={(e)=>setEmail(e.target.value)} />
 
-                 <input type="password" name='password' id='password' autoComplete='off' placeholder='Your Password' />
+                 <input type="password" name='password' id='password' autoComplete='off' placeholder='Your Password' value={password} onChange={(e)=>setPassword(e.target.value)}/>
 
-                 <input type="submit" name="signin" id="signin" className="form-submit" value="Log in" />
+                 <input type="submit" name="signin" id="signin" className="form-submit" value="Log In" onClick={loginUser} />
              </form>
  
          </div>
          <div>
-     <NavLink to="/login"className="signin-im-link">Creat An Account</NavLink>
+     <NavLink to="/signup"className="signin-im-link">Creat An Account</NavLink>
  </div>
  
      </div>
