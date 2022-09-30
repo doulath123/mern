@@ -2,7 +2,7 @@ const express=require('express');
 const jwt=require('jsonwebtoken')
 const bcrypt=require("bcrypt")
 const router=express.Router();
-const authenticate=require("../middleware/authenticate")
+const Authenticate=require("../middleware/authenticate")
 require("../db/conn")
 const User=require('../model/userSchema')
 router.get('/', (req,res)=>{
@@ -62,6 +62,7 @@ router.post('/signin', async(req,res)=>{
     // // console.log(req.body);
     // res.json(req.body)
 try{
+    let token;
 const {email, password}=req.body;
 if(!email || !password){
     return res.status(400).json({err:"plz filled the data"})
@@ -70,33 +71,31 @@ const userLogin= await User.findOne({email:email});
 // console.log(userLogin);
 if(userLogin){
     const isMatch=await bcrypt.compare(password, userLogin.password);
-    const token= await userLogin.generateAuthToken();
-    console.log(token);
-res.cookie("jwtoken", token, {
-    expires:new Date(Date.now()+25892000000),
-    httpOnly:true
-});
 
     if(!isMatch){
         res.status(400).json({err:"Invalid Credientials pass"})
     }else{
+        token= await userLogin.generateAuthToken();
+        console.log(token);
+    res.cookie("jwtoken", token, {
+        expires:new Date(Date.now()+25892000000),
+        httpOnly:true
+    });
         res.json({message:"user signin succesfully"});
     }
     
 }else{
     res.status(400).json({err:"Invalid Credientials email"})
 }
-
-
 }catch(err){
     console.log(err);
 }
 });
 
 //about us ka page
-app.get('/about',authenticate,(req, res)=>{
+router.get('/about',Authenticate, (req, res)=>{
     console.log("hello my about")
-    res.send("Hollo about World from the server")
+    res.send(req.rootUser)
     });
 
 
