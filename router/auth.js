@@ -93,7 +93,7 @@ if(userLogin){
 });
 
 //about us ka page
-router.get('/about',Authenticate, (req, res)=>{
+router.get('/about', Authenticate, (req, res)=>{
     console.log("hello my about")
     res.send(req.rootUser)
     });

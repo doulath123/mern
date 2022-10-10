@@ -1,8 +1,12 @@
 
 const dotenv=require('dotenv');
 
-const express=require('express');
-const app=express();
+const express = require('express');
+const cookieParser = require('cookie-parser')
+
+const app = express();
+
+app.use(cookieParser())
 dotenv.config({path:"./config.env"});
 require('./db/conn')
 // const User=require('./model/userSchema');
@@ -37,5 +41,5 @@ const PORT=process.env.PORT;
 
 
 app.listen(PORT, ()=>{
-    console.log(`serveris running at port no ${PORT}`, express.json())
+    console.log(`serveris running at port no ${PORT}`)
 })

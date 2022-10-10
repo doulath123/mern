@@ -14,9 +14,8 @@ req.rootUser=rootUser;
 req.userID=rootUser._id;
 next();
     }catch(err){
-        console.log(err)
         res.status(401).send('Unathorized:No token provided')
-        
+        console.log(err)
     }
 
 }
