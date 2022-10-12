@@ -70,7 +70,7 @@ function About() {
             <div className='col-md-4'>
                 <div className='profile-work'>
                     <p>Work Link</p>
-                    <a href='' target='_doulath'>Youtube</a>
+                    <a href='' target='_doulath'>Developer</a>
                 </div>
             </div>
             <div className='col-md-8 pl-5 about-info'>
