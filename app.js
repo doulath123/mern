@@ -12,7 +12,7 @@ require('./db/conn')
 // const User=require('./model/userSchema');
 app.use(express.json());
 app.use(require('./router/auth'));
-const PORT=process.env.PORT;
+const PORT=process.env.PORT || 5000 ;
 
 //middleware
 // const middleware=(req,res, next)=>{
@@ -38,6 +38,14 @@ const PORT=process.env.PORT;
             app.get('/signup', (req, res)=>{
                 res.send("Hollo Register World from the server")
                 });
+
+if(process.env.NODE_ENV==='production'){
+    app.use(express.static('client/build'));
+    const path=require('path');
+    app.get('*', (req,res)=>{
+        res.sendFile(path.resolve(_dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 
 app.listen(PORT, ()=>{
